@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,11 +27,22 @@ public class ReadImage implements Runnable {
 	private final double fps = 15; // Frames Per Second
 	private InputStream is;
 	private BufferedImage img;
-	private byte[] bytes;
-	JFrame frame;
-	JLabel lbIm1;
+	private byte[] bytes = new byte[(int)width*height*3];
+	//JFrame frame;
+	//JLabel lbIm1;
+	//ImageIcon imgIcon = new ImageIcon();
+	ImageReaderComponent component = new ImageReaderComponent();
+	
+	ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 	
 	public void run(){
+	
+		/*exec.scheduleAtFixedRate(new Runnable() {			 
+			  public void run() {
+				  play();
+			  }
+			}, 0, 66, TimeUnit.MILLISECONDS);*/
+		
 		play();
 	}
 
@@ -65,7 +79,7 @@ public class ReadImage implements Runnable {
 			frame.setTitle("CSCI 576 Team Player");
 			frame.setSize(width + 100, height + 100);	
 			
-			GridBagLayout gLayout = new GridBagLayout();
+/*			GridBagLayout gLayout = new GridBagLayout();
 			frame.getContentPane().setLayout(gLayout);
 
 			JLabel lbText1 = new JLabel("Video: " + videoFileName);
@@ -90,75 +104,69 @@ public class ReadImage implements Runnable {
 
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
-			c.gridy = 2;
-			//frame.getContentPane().add(lbIm1, c);
-			//frame.pack();
-			//frame.setVisible(true);	
-
-			bytes = new byte[(int)len];
-			
+			c.gridy = 2;			
+*/			
 			// audio Samples Per video Frame
 			double spf = playSound.getSampleRate()/fps;
 			// Video Frame offsets to sync audio and video
-			int offset = 5;	
 			// Audio ahead of video, roll video forward to catch up
-			int j = 0;
-
-			/*if(frameCount == 200){
-			try {
-				Thread.sleep(1000*60*2);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}*/
+			int j = 0;		
 			
+//			lbIm1 = new JLabel(new ImageIcon(img));
+//			frame.getContentPane().add(lbIm1, c);
+//			frame.pack();
+//			frame.setVisible(true);
 			while(j < Math.round(playSound.getPosition()/spf)) {
 				readBytes();
-				//component.setImg(img);
-				//frame.add(component);
-				lbIm1 = new JLabel(new ImageIcon(img));
-				frame.getContentPane().add(lbIm1, c);				
-				frame.repaint();
-				frame.pack();
-				frame.setVisible(true);
+				component.setImg(img);
+			    frame.add(component);
+			    frame.repaint();
+			    frame.setVisible(true);					
 				j++;
 			}
 
 			// Video ahead of audio, wait for audio to catch up
-			while(j > Math.round(/*offset+*/playSound.getPosition()/spf)) {
+			while(j > Math.round(playSound.getPosition()/spf)) {
 				// Do Nothing
 			}
 
 			for(int i = j; i < numFrames; i++) {
 				// Video ahead of audio, wait for audio to catch up
-				while(i > Math.round(/*offset+*/playSound.getPosition()/spf)) {
+				while(i > Math.round(playSound.getPosition()/spf)) {
 					// Do Nothing
 				}
 
 				// Audio ahead of video, roll video forward to catch up
+//				lbIm1 = new JLabel(new ImageIcon(img));
+//				frame.getContentPane().add(lbIm1, c);
+//				frame.pack();
+//				frame.setVisible(true);
 				while(i < Math.round(playSound.getPosition()/spf)) {
 					readBytes();
+					component.setImg(img);
+				    frame.add(component);
+				    frame.repaint();
+				    frame.setVisible(true);
 					//component.setImg(img);
-					//frame.add(component);
-					lbIm1 = new JLabel(new ImageIcon(img));
-					frame.getContentPane().add(lbIm1, c);
-					frame.repaint();
-					frame.pack();
-					frame.setVisible(true);	
+					//frame.add(component);					
+					//frame.repaint();						
 					i++;
 				}
 				
 				readBytes();
-				//component.setImg(img);
-				//frame.add(component);
-				lbIm1 = new JLabel(new ImageIcon(img));
-				frame.getContentPane().add(lbIm1, c);
+				component.setImg(img);
+				frame.add(component);
 				frame.repaint();
-				frame.pack();
-				frame.setVisible(true);
+				frame.setVisible(true);	
+//				lbIm1 = new JLabel(new ImageIcon(img));
+//				frame.getContentPane().add(lbIm1, c);
+//				frame.repaint();
+//				frame.pack();
+//				frame.setVisible(true);
 				
-				System.out.println("frameCount: "+frameCount);
+				System.out.println("frameCount: " + frameCount);
+				
+				System.gc();
 			}
 			
 		} catch (IOException e) {
