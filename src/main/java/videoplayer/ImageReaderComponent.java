@@ -1,17 +1,11 @@
 package videoplayer;
-// CSCI 576 Final Project
-// File:        imageReaderComponent.java
-// Programmers: Christopher Mangus, Louis Schwartz
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JComponent;
 
-/**
- * Component class used in conjunction with imageReader.
- * @author Christopher Mangus     
- * @author Louis Schwartz
- */
 public class ImageReaderComponent extends JComponent {
 
 	/**
