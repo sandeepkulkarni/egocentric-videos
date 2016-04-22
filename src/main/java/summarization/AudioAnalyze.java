@@ -1,4 +1,4 @@
-package videoplayer;
+package summarization;
 
 
 import java.io.BufferedInputStream;
@@ -18,12 +18,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import videoplayer.PlayWaveException;
+
 /**
  * This class takes in the shot breaks and analyzes the average audio level over each shot.
  * Then, each shot is weighted, and only the highest given percentage of shots are retained for the summary.
  * 
  */
-public class audioAnalyze {
+public class AudioAnalyze {
     private final int HEADER_LEN = 46;
     private String vFileName;
     private String aFileName;
@@ -43,7 +45,7 @@ public class audioAnalyze {
      * @param aName The name of the audio input file
      * @param per The real percentage value, in the range [0,1]. 0 means 0% compression and returns original file.
      */
-    public audioAnalyze(String vName, String aName, double per) {
+    public AudioAnalyze(String vName, String aName, double per) {
 	vFileName = vName;
 	aFileName = aName;
 	percent = per;
@@ -110,7 +112,7 @@ public class audioAnalyze {
 	    int totNumFrames = (int)bytesToFrames(totNumBytes);
 
 	    System.out.println("Running videoSegment...");
-	    videoSegment vs = new videoSegment(vFileName);
+	    VideoSegment vs = new VideoSegment(vFileName);
 	    vs.analyze();
 	    breaks = vs.getBreaks();
 
@@ -118,7 +120,7 @@ public class audioAnalyze {
 	    System.out.println("Shot Breaks Size: "+breaks.size());
 
 	    System.out.println("Running motionAnalyzer...");
-	    motionAnalyzer ma = new motionAnalyzer(vFileName,breaks);
+	    MotionAnalyzer ma = new MotionAnalyzer(vFileName,breaks);
 	    motionWs =  ma.analyzeFullscreenAverage();
 	    motionWs1 = ma.analyzeBlockAverage();
 

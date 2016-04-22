@@ -1,13 +1,15 @@
-package videoplayer;
+package summarization;
 
 
 import java.util.ArrayList;
+
+import videoplayer.PlayWaveException;
 
 /**
  * The driver for the video summarization algorithms.
  * 
  */
-public class videoSummarize {
+public class VideoSummarize {
 
     /**
      * Main method for videoSummarize
@@ -23,7 +25,7 @@ public class videoSummarize {
 	    String aFileName = args[1];	
 	    double percent = Double.parseDouble(args[2]);
 
-	    audioAnalyze aa = new audioAnalyze(vFileName,aFileName,percent);
+	    AudioAnalyze aa = new AudioAnalyze(vFileName,aFileName,percent);
 	    ArrayList<Integer> shots = new ArrayList<Integer>();
 	    shots = aa.calcAudioWeights();
 	    aa.writeVideo(shots);
