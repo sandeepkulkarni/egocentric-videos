@@ -247,6 +247,27 @@ public class AudioAnalyze {
 		finalShots.add(breaks.get(shotNum)-1);
 	    }
 
+	    if(!finalShots.contains(0))
+	    	finalShots.add(0,0);
+	    boolean firstSegment=false;
+	    for(int i=1;i<75;i++){
+	    	if(finalShots.contains(i))
+	    		firstSegment=true;
+	    		break;
+	    }
+	    if(!firstSegment)
+	    	finalShots.add(1,75);
+	    
+	    if(!finalShots.contains(breaks.get(breaks.size()-1)))
+	    	finalShots.add(breaks.get(breaks.size()-1));
+	    boolean lastSegment=false;
+	    for(int i=4499;i>=4425;i--)
+	    	if(finalShots.contains(i)){
+	    		lastSegment=true;
+	    		break;
+	    	}
+	    if(!lastSegment)
+	    	finalShots.add(finalShots.size()-1,4425);
 	    System.out.println("AnalyzingAudio...Complete");
 	    System.out.println("Final Shot Frame Boundaries: "+finalShots);
 

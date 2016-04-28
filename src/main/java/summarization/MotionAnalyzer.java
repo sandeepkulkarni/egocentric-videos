@@ -211,7 +211,10 @@ public class MotionAnalyzer {
 		return avg/(16.0*16.0);
 	}
 	
-	
+	/**
+	 * Read RGB values and convert to YUV space
+	 * @param frame
+	 */
 	private void readBytes(double[][] frame) {
 		try {
 			int offset = 0;
