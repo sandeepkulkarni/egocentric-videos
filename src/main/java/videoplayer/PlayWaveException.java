@@ -7,6 +7,8 @@ package videoplayer;
  */
 public class PlayWaveException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public PlayWaveException(String message) {
 		super(message);
 	}

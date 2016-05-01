@@ -8,6 +8,8 @@ import javax.swing.JComponent;
 
 public class ImageReaderComponent extends JComponent {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Paint component method.
 	 */

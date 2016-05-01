@@ -1,28 +1,21 @@
 package videoplayer;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class ReadImage implements Runnable {
 
-	private Thread t;
 	private long frameCount;		//for debug purpose
 	private PlaySound playSound;
 	private String videoFileName;
@@ -33,10 +26,11 @@ public class ReadImage implements Runnable {
 	private InputStream is;
 	private BufferedImage img;
 	private byte[] bytes = new byte[(int)width*height*3];
+	//JFrame frame;
+	//JLabel lbIm1;
+	//ImageIcon imgIcon = new ImageIcon();
 	ImageReaderComponent component = new ImageReaderComponent();
 	JFrame frame = new JFrame();
-	//boolean suspend = true;
-	private AtomicBoolean paused;
 
 	ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 
@@ -44,22 +38,6 @@ public class ReadImage implements Runnable {
 		play();
 		System.out.println("frameCount: " + frameCount);
 	}
-
-	/*public void start(){
-		if(t == null){
-			t = new Thread(this, "imageThread");
-			t.start();
-		}
-	}
-
-	void suspend(){
-		suspend = true;
-	}
-
-	synchronized void resume(){
-		suspend = false;
-		notify();
-	}*/
 
 	/**
 	 * Constructor for imageReader
@@ -70,10 +48,6 @@ public class ReadImage implements Runnable {
 		this.videoFileName = videoFileName;
 		this.audioFileName = pSound.audioFileName;
 		this.playSound = pSound;
-
-		paused = new AtomicBoolean(false);
-		t = new Thread(this);
-	//	t.start();
 	}
 
 
@@ -111,7 +85,7 @@ public class ReadImage implements Runnable {
 		frame.getContentPane().add(lblInputAudio, gbc_lblInputAudio);
 
 		//Play, Pause, Stop Buttons
-		JButton btnPlay = new JButton("Play");
+		/*JButton btnPlay = new JButton("Play");
 		btnPlay.setPreferredSize(new Dimension(75, 25));
 		GridBagConstraints gbc_btnPlay = new GridBagConstraints();
 		gbc_btnPlay.insets = new Insets(10, 50, 10, 25);
@@ -136,7 +110,7 @@ public class ReadImage implements Runnable {
 		gbc_btnStop.gridx = 7;
 		gbc_btnStop.gridy = 2;
 		//gbc_btnStop.weightx = 0.5;
-		frame.getContentPane().add(btnStop, gbc_btnStop);
+		frame.getContentPane().add(btnStop, gbc_btnStop);*/
 
 		//Video
 		GridBagConstraints gbc_videoPane = new GridBagConstraints();
@@ -152,63 +126,37 @@ public class ReadImage implements Runnable {
 		frame.setVisible(true);
 
 		//ActionListeners
-		btnPlay.addActionListener(new ActionListener() { 
+		/*btnPlay.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("You clicked play");
-				
-				if(!paused.get()){
-					paused.set(true);
-				}else{
-					paused.set(false);
-					synchronized (t) {
-//						resume();
-						t.notify();
-					}
-				}
-				
 			}
 		}); 
-
 		btnPause.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("You clicked pause");
-				/*Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+				Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 				Thread soundT = null;
 				Thread imageT = null;
 				for(Thread t : threadSet){
-					System.out.println("id="+t.getId()+", name="+t.getName());
+					System.out.println(t.getId() + " , " + t.getName());
 					if(t.getName().equals("imageT")){
 						imageT = t;
 					}
 					if(t.getName().equals("soundT")){
 						soundT = t;
 					}
-				}*/
-				//flag = false;
-
-				//suspend();
-				if(paused.get()){	
-					synchronized (t) {
-//						while(suspend){
-							try {
-								t.wait();
-//								Thread.sleep(3000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-//						}
-					}
 				}
+				soundT.suspend();
+				imageT.suspend();
 			}
 		});
 		btnStop.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("You clicked stop");
-
-
+				Thread.currentThread();
+				
 			}
-		});
+		});*/
 	}
 
 	/**

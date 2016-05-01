@@ -24,8 +24,8 @@ public class AVPlayer {
 		Thread soundThread = new Thread(playSound);
 		Thread imageThread = new Thread(imageReader);
 		
-//		soundThread.setName("soundT");
-//		imageThread.setName("imageT");
+		soundThread.setName("soundT");
+		imageThread.setName("imageT");
 		soundThread.start();
 		imageThread.start();
 	}
