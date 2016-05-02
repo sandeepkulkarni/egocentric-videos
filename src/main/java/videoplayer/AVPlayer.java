@@ -10,7 +10,7 @@ public class AVPlayer {
 			return;
 		}
 		String videoFileName = args[0];
-		String audioFileName = args[1];	 
+		String audioFileName = args[1];
 		System.out.println("Video File: " + videoFileName);
 		System.out.println("Audio File: " + audioFileName);
 

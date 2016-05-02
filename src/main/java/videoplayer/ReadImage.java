@@ -26,9 +26,6 @@ public class ReadImage implements Runnable {
 	private InputStream is;
 	private BufferedImage img;
 	private byte[] bytes = new byte[(int)width*height*3];
-	//JFrame frame;
-	//JLabel lbIm1;
-	//ImageIcon imgIcon = new ImageIcon();
 	ImageReaderComponent component = new ImageReaderComponent();
 	JFrame frame = new JFrame();
 
@@ -37,7 +34,7 @@ public class ReadImage implements Runnable {
 	public void run(){
 		play();
 		System.out.println("frameCount: " + frameCount);
-	}
+	} 
 
 	/**
 	 * Constructor for imageReader
@@ -84,34 +81,6 @@ public class ReadImage implements Runnable {
 		gbc_lblInputAudio.gridy = 1;
 		frame.getContentPane().add(lblInputAudio, gbc_lblInputAudio);
 
-		//Play, Pause, Stop Buttons
-		/*JButton btnPlay = new JButton("Play");
-		btnPlay.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnPlay = new GridBagConstraints();
-		gbc_btnPlay.insets = new Insets(10, 50, 10, 25);
-		gbc_btnPlay.gridx = 3;
-		gbc_btnPlay.gridy = 2;
-		//gbc_btnPlay.weightx = 0.5;
-		frame.getContentPane().add(btnPlay, gbc_btnPlay);
-
-		JButton btnPause = new JButton("Pause");
-		btnPause.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnPause = new GridBagConstraints();
-		gbc_btnPause.insets = new Insets(10, 25, 10, 25);
-		gbc_btnPause.gridx = 5;
-		gbc_btnPause.gridy = 2;
-		//gbc_btnPause.weightx = 0.5;
-		frame.getContentPane().add(btnPause, gbc_btnPause);
-
-		JButton btnStop = new JButton("Stop");
-		btnStop.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnStop = new GridBagConstraints();
-		gbc_btnStop.insets = new Insets(10, 25, 10, 25);
-		gbc_btnStop.gridx = 7;
-		gbc_btnStop.gridy = 2;
-		//gbc_btnStop.weightx = 0.5;
-		frame.getContentPane().add(btnStop, gbc_btnStop);*/
-
 		//Video
 		GridBagConstraints gbc_videoPane = new GridBagConstraints();
 		gbc_videoPane.gridheight = 3;
@@ -122,41 +91,7 @@ public class ReadImage implements Runnable {
 		gbc_videoPane.gridy = 3;
 		frame.getContentPane().add(component, gbc_videoPane);
 
-		//frame.add(component);
 		frame.setVisible(true);
-
-		//ActionListeners
-		/*btnPlay.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked play");
-			}
-		}); 
-		btnPause.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked pause");
-				Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-				Thread soundT = null;
-				Thread imageT = null;
-				for(Thread t : threadSet){
-					System.out.println(t.getId() + " , " + t.getName());
-					if(t.getName().equals("imageT")){
-						imageT = t;
-					}
-					if(t.getName().equals("soundT")){
-						soundT = t;
-					}
-				}
-				soundT.suspend();
-				imageT.suspend();
-			}
-		});
-		btnStop.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked stop");
-				Thread.currentThread();
-				
-			}
-		});*/
 	}
 
 	/**
