@@ -1,43 +1,32 @@
 package imagesearch;
 
-import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfFloat;
-import org.opencv.core.MatOfInt;
-import org.opencv.imgproc.Imgproc;
-
-import summarization.AudioAnalyze;
+import dumptopng.DumpRgbToPng;
 import player.PlayWaveException;
+import summarization.AudioAnalyze;
 
 public class ImageSearch {
 	// Image Constants
-	private static final Integer ImageWidth = 1280;
-	private static final Integer ImageHeight = 720;
+	//private static final Integer ImageWidth = 1280;
+	//private static final Integer ImageHeight = 720;
 
 	// Member variables
-	private static BufferedImage searchImage;
-	private static InputStream queryVideoFile;
-	private static boolean[][] audioFile;
+	//private static BufferedImage searchImage;
+	//private static InputStream queryVideoFile;
+	//private static boolean[][] audioFile;
 
 	// Input arguments
-	private static String queryVideoFilePath;
-	private static String searchImageFilePath;
+	private static String inputVideoPath;
+	private static String searchImagePath;
 	private static String audioFilePath;
-
+	private static String pngDataSetPath = "C:\\Python27\\vacation-image-search-engine\\dataset";
+	private static String pngQueryPath = "C:\\Python27\\vacation-image-search-engine\\queries";
+	
 	/* Public methods */
 	public static void main(String[] args) {
 		// Check for expected number of input arguments
@@ -45,18 +34,21 @@ public class ImageSearch {
 			System.out.println("Error: Invalid number of input arguments.");
 			return;
 		}
-
-		// Parse input
-		queryVideoFilePath = args[0];
-		searchImageFilePath = args[1];
+		inputVideoPath = args[0];
+		searchImagePath = args[1];
 		audioFilePath = args[2];
+				
+		System.out.println("Process input video and write pngs...");
+		DumpRgbToPng rgbToPng = new DumpRgbToPng(inputVideoPath, pngDataSetPath, searchImagePath, pngQueryPath);
+		rgbToPng.writeRgbVideoToPng();
+
+		System.out.println("Write query rgb image to png...");
+		rgbToPng.writeRgbToPng();
 		
-
-		searchImageFilePath = "C:\\Python27\\vacation-image-search-engine\\dataset ";
-
-		String datasetPath = searchImageFilePath;
+		System.out.println("Indexing and Search Query Image...");
+		String datasetPath = pngDataSetPath;
 		String indexFilePath = "C:\\Python27\\vacation-image-search-engine\\index.csv ";
-		String queryFilePath = "C:\\Python27\\vacation-image-search-engine\\queries\\16700.png ";
+		String queryFilePath = pngQueryPath + "\\" + "queryImg.png";
 		String PythonIndexFilePath = "C:\\Python27\\vacation-image-search-engine\\index.py";
 		String PythonSearchFilePath = "C:\\Python27\\vacation-image-search-engine\\search.py";
 		String result1 = null;
@@ -128,7 +120,7 @@ public class ImageSearch {
 							shots.add(0);
 						shots.add(result + 75);
 
-						AudioAnalyze aa = new AudioAnalyze(queryVideoFilePath, audioFilePath, 1);
+						AudioAnalyze aa = new AudioAnalyze(inputVideoPath, audioFilePath, 1);
 						aa.writeVideo(shots);
 						try {
 							aa.writeAudio(shots);
