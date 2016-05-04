@@ -21,7 +21,7 @@ import org.opencv.core.MatOfInt;
 import org.opencv.imgproc.Imgproc;
 
 import summarization.AudioAnalyze;
-import videoplayer.PlayWaveException;
+import player.PlayWaveException;
 
 public class ImageSearch {
 	// Image Constants
@@ -31,7 +31,6 @@ public class ImageSearch {
 	// Member variables
 	private static BufferedImage searchImage;
 	private static InputStream queryVideoFile;
-	private static MediaSearchEngine searchEngine;
 	private static boolean[][] audioFile;
 
 	// Input arguments

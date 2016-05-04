@@ -3,7 +3,7 @@ package summarization;
 
 import java.util.ArrayList;
 
-import videoplayer.PlayWaveException;
+import player.PlayWaveException;
 
 /**
  * The driver for the video summarization algorithms.

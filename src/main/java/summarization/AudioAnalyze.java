@@ -18,7 +18,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import videoplayer.PlayWaveException;
+import player.PlayWaveException;
 
 /**
  * This class takes in the shot breaks and analyzes the average audio level over each shot.

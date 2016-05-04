@@ -156,95 +156,6 @@ public class AVPlayer extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		/*frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("CSCI 576 Team Player");
-		frame.setBounds(100, 100, 500, 420);		
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-
-		JLabel lblInputVideo = new JLabel("Input Images: " );
-		GridBagConstraints gbc_lblInputVideo = new GridBagConstraints();
-		gbc_lblInputVideo.anchor = GridBagConstraints.WEST;
-		gbc_lblInputVideo.gridwidth = 12;
-		gbc_lblInputVideo.insets = new Insets(5, 5, 5, 5);
-		gbc_lblInputVideo.gridx = 0;
-		gbc_lblInputVideo.gridy = 0;
-		frame.getContentPane().add(lblInputVideo, gbc_lblInputVideo);
-
-		JLabel lblInputAudio = new JLabel("Input Audio: " );
-		GridBagConstraints gbc_lblInputAudio = new GridBagConstraints();
-		gbc_lblInputAudio.anchor = GridBagConstraints.WEST;
-		gbc_lblInputAudio.gridwidth = 12;
-		gbc_lblInputAudio.insets = new Insets(5, 5, 5, 5);
-		gbc_lblInputAudio.gridx = 0;
-		gbc_lblInputAudio.gridy = 1;
-		frame.getContentPane().add(lblInputAudio, gbc_lblInputAudio);
-
-		//Play, Pause, Stop Buttons
-		JButton btnPlay = new JButton("Play");
-		btnPlay.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnPlay = new GridBagConstraints();
-		gbc_btnPlay.insets = new Insets(10, 50, 10, 25);
-		gbc_btnPlay.gridx = 3;
-		gbc_btnPlay.gridy = 2;
-		//gbc_btnPlay.weightx = 0.5;
-		frame.getContentPane().add(btnPlay, gbc_btnPlay);
-
-		JButton btnPause = new JButton("Pause");
-		btnPause.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnPause = new GridBagConstraints();
-		gbc_btnPause.insets = new Insets(10, 25, 10, 25);
-		gbc_btnPause.gridx = 5;
-		gbc_btnPause.gridy = 2;
-		//gbc_btnPause.weightx = 0.5;
-		frame.getContentPane().add(btnPause, gbc_btnPause);
-
-		JButton btnStop = new JButton("Stop");
-		btnStop.setPreferredSize(new Dimension(75, 25));
-		GridBagConstraints gbc_btnStop = new GridBagConstraints();
-		gbc_btnStop.insets = new Insets(10, 25, 10, 25);
-		gbc_btnStop.gridx = 7;
-		gbc_btnStop.gridy = 2;
-		//gbc_btnStop.weightx = 0.5;
-		frame.getContentPane().add(btnStop, gbc_btnStop);
-
-		//Video
-		GridBagConstraints gbc_videoPane = new GridBagConstraints();
-		gbc_videoPane.gridheight = 3;
-		gbc_videoPane.gridwidth = 12;
-		gbc_videoPane.insets = new Insets(5, 5, 5, 5);
-		gbc_videoPane.fill = GridBagConstraints.BOTH;
-		gbc_videoPane.gridx = 0;
-		gbc_videoPane.gridy = 3;
-		frame.getContentPane().add(component, gbc_videoPane);
-
-		//frame.add(component);
-		frame.setVisible(true);
-
-		//ActionListeners
-		btnPlay.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked play");	
-
-				playBack();
-
-			}
-		});
-		btnPause.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked pause");			}
-		});
-		btnStop.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked stop");
-			}
-		});*/
 	}
 	
 	/**
@@ -312,16 +223,8 @@ public class AVPlayer extends JFrame implements ActionListener{
 			if (isPlaying || isPause) {
 				stopPlaying();
 				
-				/*while(audioPlayer.getAudioClip().isRunning()) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException ex) {
-						ex.printStackTrace();
-					}
-				}*/
 			}
 			
-			//playBack();
 		}
 	}
 	
@@ -390,7 +293,6 @@ public class AVPlayer extends JFrame implements ActionListener{
 		timer.interrupt();	
 		
 		audioPlayer.stop();
-//		audioPlayer.getAudioClip().drain();
 		
 		imageReader.resetInputStream(imageFileName);
 		
