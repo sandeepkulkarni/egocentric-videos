@@ -24,6 +24,7 @@ public class ImageSearch {
 	private static String inputVideoPath;
 	private static String searchImagePath;
 	private static String audioFilePath;
+	private static int numberOfFrames=4500;
 	private static String pngDataSetPath = "C:\\Python27\\vacation-image-search-engine\\dataset";
 	private static String pngQueryPath = "C:\\Python27\\vacation-image-search-engine\\queries";
 	
@@ -118,7 +119,11 @@ public class ImageSearch {
 							shots.add(result - 75);
 						else
 							shots.add(0);
-						shots.add(result + 75);
+						
+						if (result +75 >= numberOfFrames)
+							shots.add(4499);
+						else
+							shots.add(result+75);
 
 						AudioAnalyze aa = new AudioAnalyze(inputVideoPath, audioFilePath, 1);
 						aa.writeVideo(shots);
