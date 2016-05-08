@@ -10,9 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -29,8 +27,6 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.lang3.StringUtils;
-
-import player.PlayingTimer;
 
 
 public class AVPlayer extends JFrame implements ActionListener{
@@ -79,8 +75,11 @@ public class AVPlayer extends JFrame implements ActionListener{
 	private final double fps = 15; // Frames Per Second
 	private BufferedImage img;
 	
+	/**
+	 * Design the Java Swing UI with JFrame, buttons.
+	 */
 	public AVPlayer() {		
-		super("SK Player");
+		super("CSCI 576 Project Player");
 		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(5, 5, 5, 5);
@@ -160,6 +159,10 @@ public class AVPlayer extends JFrame implements ActionListener{
 	
 	/**
 	 * Handle click events on the buttons.
+	 * Open : Choose Audio, Image files
+	 * Play : Play Video
+	 * Stop : Stop Video and restart both threads
+	 * Pause : Interrupt both threads and resume them on play
 	 */
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
@@ -185,6 +188,9 @@ public class AVPlayer extends JFrame implements ActionListener{
 		}
 	}
 	
+	/**
+	 * Using JFileChooser select Image and Audio Files
+	 */
 	private void openFileImage() {
 		JFileChooser fileChooser = null;
 		
@@ -254,7 +260,6 @@ public class AVPlayer extends JFrame implements ActionListener{
 				}
 			}
 		};
-
 		
 		fileChooser.setFileFilter(wavFilter);
 		fileChooser.setDialogTitle("Open Audio File");
@@ -274,33 +279,27 @@ public class AVPlayer extends JFrame implements ActionListener{
 						ex.printStackTrace();
 					}
 				}
-			}
-			
+			}			
 			//playBack();
 			if(StringUtils.isNotBlank(imageLastOpenPath) && StringUtils.isNotBlank(audioLastOpenPath)){
 				buttonPlay.setEnabled(true);
-			}
-			
+			}			
 		}
 	}
 	
-	
+	/**
+	 * Stop, Pause, Resume audio and video
+	 */
 	private void stopPlaying() {
 		isPause = false;
 		buttonPause.setText("Pause");
 		buttonPause.setEnabled(false);
 		timer.reset();
 		timer.interrupt();	
-		
 		audioPlayer.stop();
-		
 		imageReader.resetInputStream(imageFileName);
-		
 		imageThread.interrupt();
-		audioThread.interrupt();
-		
-		System.out.println("--------Stop completed-------");
-		
+		audioThread.interrupt();		
 	}
 	
 	private void pausePlaying() {
@@ -334,8 +333,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 		
 		isPlaying = false;		
 	}
-
-		
+	
 
 	/**
 	 * Start playing sound and images in sync
@@ -348,7 +346,8 @@ public class AVPlayer extends JFrame implements ActionListener{
 		System.out.println("--------in playback------");
 		
 		try {
-			audioPlayer.load(audioFileName);
+			//Load Audio Player Controls
+			audioPlayer.load(audioFileName);		
 		} catch (UnsupportedAudioFileException e1) {
 			JOptionPane.showMessageDialog(AVPlayer.this,  
 					"The audio format is unsupported!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -366,10 +365,10 @@ public class AVPlayer extends JFrame implements ActionListener{
 			e1.printStackTrace();
 		}
 		
+		//Start Playing Audio
 		audioThread = new Thread(new Runnable() {
 			public void run() {
-				try {
-					
+				try {					
 					System.out.println("# audio run...");
 					
 					buttonPlay.setText("Stop");
@@ -385,6 +384,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 					
 					labelDuration.setText(audioPlayer.getClipLengthString());
 					
+					//Play Audio - using AudioClip - start(), stop() to play pause 
 					audioPlayer.play();
 					
 					resetControls();
@@ -398,13 +398,14 @@ public class AVPlayer extends JFrame implements ActionListener{
 			}
 		});
 		
+		//Load Image Reader 
 		imageReader.load(imageFileName, audioPlayer);		
 		imageThread = new Thread(new Runnable() {
 			public void run() {						
 				
 				labelFileNameImage.setText("Image File: " + imageFileName);
 				
-				System.out.println("$ image run...");
+				System.out.println("# image run...");
 				long length = width*height*3;
 				long numFrames = imageReader.getImageFileLength()/length;
 
@@ -424,14 +425,12 @@ public class AVPlayer extends JFrame implements ActionListener{
 				// Video ahead of audio, wait for audio to catch up
 				while(j > Math.round(audioPlayer.getPosition()/spf)) {
 					// Do Nothing
-					System.out.println("### Doing Nothing...");
 				}
 
 				for(int i = j; i < numFrames; i++) {
 					// Video ahead of audio, wait for audio to catch up
 					while(i > Math.round(audioPlayer.getPosition()/spf)) {
 						// Do Nothing
-						//System.out.println("@@@ Doing Nothing...");
 					}
 
 					while(i < Math.round(audioPlayer.getPosition()/spf)) {
@@ -459,24 +458,14 @@ public class AVPlayer extends JFrame implements ActionListener{
 		
 	}
 	
-	
+	//Driver for loading the player
 	public static void main(String[] args) {
-		// get the command line parameters
-		/*if (args.length < 2) {
-			System.err.println("usage: java videoPlayback video.rgb audio.wav");
-			return;
-		}*/
-		//imageFileName = "D:\\576project\\Alin_Day1_003\\Alin_Day1_003.rgb";
-		//audioFileName = "D:\\576project\\Alin_Day1_003\\Alin_Day1_003.wav";	 
-//		System.out.println("Video File: " + imageFileName);
-//		System.out.println("Audio File: " + audioFileName);
-
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new AVPlayer().setVisible(true);

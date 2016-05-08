@@ -16,13 +16,13 @@ public class ReadImage {
 	private BufferedImage img = null;
 	private byte[] bytes; 
 	File file = null;
-		
+
 	public void load(String imageFileName, PlaySound pSound){
 		try {
 			img = null;
 			img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			bytes = new byte[(int)width*height*3];
-			
+
 			is = null;
 			file = new File(imageFileName);
 			is = new FileInputStream(file);			
@@ -61,11 +61,11 @@ public class ReadImage {
 		//System.out.println("frameCount: " + frameCount);
 		return img;
 	}
-	
+
 	public long getImageFileLength(){
 		return file.length();
 	}
-	
+
 	public void resetInputStream(String fileName){
 		try {
 			is = new FileInputStream(new File(fileName));

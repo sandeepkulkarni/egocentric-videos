@@ -80,7 +80,7 @@ public class DumpRgbToPng {
 		File file = new File(queryImagePath);
 		//override default dimensions as query image has different dimensions
 		int width = 1280;
-		int height = 960;//720;
+		int height = 720;//720;
 		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		try {
 			is = new FileInputStream(file);

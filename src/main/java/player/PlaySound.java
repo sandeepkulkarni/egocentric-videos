@@ -1,11 +1,7 @@
 package player;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -14,15 +10,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
-import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class PlaySound implements LineListener {
 	private static final int SECONDS_IN_HOUR = 60 * 60;
 	private static final int SECONDS_IN_MINUTE = 60;
-	
+
 	/**
 	 * this flag indicates whether the playback completes or not.
 	 */
@@ -36,7 +30,7 @@ public class PlaySound implements LineListener {
 	private boolean isPaused;
 
 	private Clip audioClip;
-	
+
 	private AudioFormat format = null;
 
 	/**
@@ -50,7 +44,7 @@ public class PlaySound implements LineListener {
 	 */
 	public void load(String audioFilePath)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		
+
 		format = null;
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(audioFilePath));
 		format = audioStream.getFormat();
@@ -64,40 +58,40 @@ public class PlaySound implements LineListener {
 
 		audioClip.open(audioStream);
 	}
-	
+
 	public long getClipSecondLength() {
 		return audioClip.getMicrosecondLength() / 1000000;
 	}
-	
+
 	public String getClipLengthString() {
 		String length = "";
 		long hour = 0;
 		long minute = 0;
 		long seconds = audioClip.getMicrosecondLength() / 1000000;
-		
+
 		System.out.println(seconds);
-		
+
 		if (seconds >= SECONDS_IN_HOUR) {
 			hour = seconds / SECONDS_IN_HOUR;
 			length = String.format("%02d:", hour);
 		} else {
 			length += "00:";
 		}
-		
+
 		minute = seconds - hour * SECONDS_IN_HOUR;
 		if (minute >= SECONDS_IN_MINUTE) {
 			minute = minute / SECONDS_IN_MINUTE;
 			length += String.format("%02d:", minute);
-			
+
 		} else {
 			minute = 0;
 			length += "00:";
 		}
-		
+
 		long second = seconds - hour * SECONDS_IN_HOUR - minute * SECONDS_IN_MINUTE;
-		
+
 		length += String.format("%02d", second);
-		
+
 		return length;
 	}
 
@@ -120,7 +114,6 @@ public class PlaySound implements LineListener {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException ex) {
-				//ex.printStackTrace();
 				if (isStopped) {
 					audioClip.stop();
 					break;
@@ -128,7 +121,7 @@ public class PlaySound implements LineListener {
 				if (isPaused) {
 					audioClip.stop();
 				} else {
-					System.out.println("!!!!");
+					//System.out.println("!!!!");
 					audioClip.start();
 				}
 			}
@@ -165,24 +158,17 @@ public class PlaySound implements LineListener {
 			}
 		}
 	}
-	
+
 	public Clip getAudioClip() {
 		return audioClip;
 	}
-	
+
 	public long getPosition() {
-		//if(audioClip != null){
-			return audioClip.getLongFramePosition();
-		//}else{
-			//return -1;
-		//}
+		return audioClip.getLongFramePosition();
 	}
 
 	public float getSampleRate() {
 		return format.getFrameRate();
 	}
-	
-
-
 
 }

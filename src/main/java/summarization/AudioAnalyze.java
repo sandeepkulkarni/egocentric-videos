@@ -691,6 +691,9 @@ public class AudioAnalyze {
 	    long len = WIDTH*HEIGHT*3;
 	    long numFrames = file.length()/len;
 	    byte[] bytes = new byte[(int)len];
+	    if(shots.size()%2!=0){
+	    	shots.add(4500);
+	    }
 
 	    OutputStream vidOutputStream = new FileOutputStream("videoOutput.rgb");
 	    int count=0;
